@@ -700,7 +700,7 @@ export default function Landing() {
           <div className="w-full h-px bg-surface-800 mb-8" />
 
           {/* Bottom row — tech stack */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-slate-600 text-[10px] uppercase tracking-widest font-semibold">
               Powered by&nbsp;
               <span className="text-slate-500">Groq</span>
@@ -710,6 +710,9 @@ export default function Landing() {
               <span className="text-slate-500">MongoDB</span>
               &nbsp;·&nbsp;
               <span className="text-slate-500">Socket.io</span>
+            </p>
+            <p className="text-slate-600 text-[10px] uppercase tracking-widest font-semibold italic">
+              Developed by Keerthishree Kesavan
             </p>
           </div>
 
