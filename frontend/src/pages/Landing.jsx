@@ -618,7 +618,7 @@ export default function Landing() {
                 
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                   <a 
-                    href="https://github.com/KeerthishreeKesavan/ReviewGuard---Fullstack" 
+                    href="https://github.com/Keerthishreekesavan/Review-Guard.git" 
                     target="_blank" 
                     rel="noreferrer" 
                     className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-brand-600 to-purple-600 text-white font-black uppercase tracking-widest rounded-2xl hover:scale-105 transition-all shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] flex items-center justify-center gap-3"
@@ -699,8 +699,8 @@ export default function Landing() {
           {/* Divider */}
           <div className="w-full h-px bg-surface-800 mb-8" />
 
-          {/* Bottom row — tech stack + copyright */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Bottom row — tech stack */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <p className="text-slate-600 text-[10px] uppercase tracking-widest font-semibold">
               Powered by&nbsp;
               <span className="text-slate-500">Groq</span>
@@ -711,10 +711,8 @@ export default function Landing() {
               &nbsp;·&nbsp;
               <span className="text-slate-500">Socket.io</span>
             </p>
-            <p className="text-slate-600 text-[10px] uppercase tracking-widest font-semibold">
-              &copy; 2026 ReviewGuard AI
-            </p>
           </div>
+
 
         </div>
       </footer>
