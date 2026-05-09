@@ -10,6 +10,9 @@ import AdminPanel from './pages/AdminPanel';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
+import VerifyEmail from './pages/VerifyEmail';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 
 function App() {
@@ -39,6 +42,9 @@ function App() {
           <Route path="/" element={!user ? <Landing /> : <Navigate to={defaultRoute()} replace />} />
           <Route path="/login" element={!user ? <Login /> : <Navigate to={defaultRoute()} replace />} />
           <Route path="/register" element={!user ? <Register /> : <Navigate to={defaultRoute()} replace />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* User routes */}
           <Route

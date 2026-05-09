@@ -17,14 +17,33 @@ export default function Register() {
     setError('');
   };
 
+  const validateEmail = (email) => {
+    return email.endsWith('@gmail.com');
+  };
+
+  const validatePassword = (pass) => {
+    const minLength = pass.length >= 8;
+    const hasUpper = /[A-Z]/.test(pass);
+    const hasLower = /[a-z]/.test(pass);
+    const hasNumber = /[0-9]/.test(pass);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<> ]/.test(pass);
+    return { minLength, hasUpper, hasLower, hasNumber, hasSpecial };
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { minLength, hasUpper, hasLower, hasNumber, hasSpecial } = validatePassword(form.password);
+    
     if (!form.name || !form.email || !form.password || !form.confirmPassword) {
       setError('Please fill in all fields.');
       return;
     }
-    if (form.password.length < 6) {
-      setError('Password must be at least 6 characters.');
+    if (!validateEmail(form.email)) {
+      setError('Only @gmail.com addresses are allowed.');
+      return;
+    }
+    if (!minLength || !hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+      setError('Password does not meet the complexity requirements.');
       return;
     }
     if (form.password !== form.confirmPassword) {
@@ -33,9 +52,10 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      const user = await register(form.name, form.email, form.password);
-      toast.success(`Welcome, ${user.name}! Account created successfully.`);
-      navigate('/dashboard');
+      const response = await register(form.name, form.email, form.password);
+      toast.success(response.message || 'Registration successful! Please check your email.');
+      setForm({ name: '', email: '', password: '', confirmPassword: '' });
+      setError('');
     } catch (err) {
       const msg = err.response?.data?.message || err.response?.data?.errors?.[0]?.msg || 'Registration failed.';
       setError(msg);
@@ -45,9 +65,16 @@ export default function Register() {
     }
   };
 
-  const strength = form.password.length === 0 ? 0
-    : form.password.length < 6 ? 1
-    : form.password.length < 10 ? 2 : 3;
+  const calculateStrength = (pass) => {
+    if (!pass) return 0;
+    let s = 0;
+    if (pass.length >= 8) s++;
+    if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) s++;
+    if (/[0-9]/.test(pass) && /[!@#$%^&*(),.?":{}|<> ]/.test(pass)) s++;
+    return s;
+  };
+
+  const strength = calculateStrength(form.password);
   const strengthColors = ['', 'bg-rose-500', 'bg-amber-500', 'bg-emerald-500'];
   const strengthLabels = ['', 'Weak', 'Fair', 'Strong'];
 
@@ -126,7 +153,7 @@ export default function Register() {
                   type={showPass ? 'text' : 'password'}
                   value={form.password}
                   onChange={handleChange}
-                  placeholder="Min. 6 characters"
+                  placeholder="Min. 8 characters"
                   className="input pl-10 pr-10"
                 />
                 <button
@@ -138,13 +165,29 @@ export default function Register() {
                 </button>
               </div>
               {form.password && (
-                <div className="mt-2 flex gap-1.5 items-center">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className={`h-1 flex-1 rounded-full transition-colors duration-300 ${i <= strength ? strengthColors[strength] : 'bg-surface-500'}`} />
-                  ))}
-                  <span className={`text-xs font-medium ml-1 ${['', 'text-rose-400', 'text-amber-400', 'text-emerald-400'][strength]}`}>
-                    {strengthLabels[strength]}
-                  </span>
+                <div className="mt-2 space-y-1.5">
+                  <div className="flex gap-1.5 items-center">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className={`h-1 flex-1 rounded-full transition-colors duration-300 ${i <= strength ? strengthColors[strength] : 'bg-surface-500'}`} />
+                    ))}
+                    <span className={`text-xs font-medium ml-1 ${['', 'text-rose-400', 'text-amber-400', 'text-emerald-400'][strength]}`}>
+                      {strengthLabels[strength]}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                    <p className={`text-[10px] flex items-center gap-1 ${form.password.length >= 8 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                      <span className={`w-1 h-1 rounded-full ${form.password.length >= 8 ? 'bg-emerald-400' : 'bg-slate-500'}`} /> 8+ Characters
+                    </p>
+                    <p className={`text-[10px] flex items-center gap-1 ${/[A-Z]/.test(form.password) ? 'text-emerald-400' : 'text-slate-500'}`}>
+                      <span className={`w-1 h-1 rounded-full ${/[A-Z]/.test(form.password) ? 'bg-emerald-400' : 'bg-slate-500'}`} /> Uppercase
+                    </p>
+                    <p className={`text-[10px] flex items-center gap-1 ${/[0-9]/.test(form.password) ? 'text-emerald-400' : 'text-slate-500'}`}>
+                      <span className={`w-1 h-1 rounded-full ${/[0-9]/.test(form.password) ? 'bg-emerald-400' : 'bg-slate-500'}`} /> Number
+                    </p>
+                    <p className={`text-[10px] flex items-center gap-1 ${/[!@#$%^&*(),.?":{}|<> ]/.test(form.password) ? 'text-emerald-400' : 'text-slate-500'}`}>
+                      <span className={`w-1 h-1 rounded-full ${/[!@#$%^&*(),.?":{}|<> ]/.test(form.password) ? 'bg-emerald-400' : 'bg-slate-500'}`} /> Special Symbol
+                    </p>
+                  </div>
                 </div>
               )}
             </div>

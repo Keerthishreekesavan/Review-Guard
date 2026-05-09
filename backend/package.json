@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^7.1.1",
     "mongoose": "^8.0.3",
+    "nodemailer": "^8.0.7",
     "socket.io": "^4.6.1"
   },
   "devDependencies": {
@@ -29,14 +30,20 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "scripts/*", 
-      ".env", 
-      "*.test.js", 
-      "**/node_modules/**", 
-      "package-lock.json", 
+      "scripts/*",
+      ".env",
+      "*.test.js",
+      "**/node_modules/**",
+      "package-lock.json",
       "*.log",
       ".git"
     ],
-    "watch": ["controllers", "models", "routes", "utils", "server.js"]
+    "watch": [
+      "controllers",
+      "models",
+      "routes",
+      "utils",
+      "server.js"
+    ]
   }
 }

@@ -91,7 +91,12 @@ export default function Login() {
             </div>
 
             <div>
-              <label htmlFor="login-password" className="label">Password</label>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="login-password" className="label mb-0">Password</label>
+                <Link to="/forgot-password" title="Go to Forgot Password" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <RiLockLine className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg" />
                 <input
