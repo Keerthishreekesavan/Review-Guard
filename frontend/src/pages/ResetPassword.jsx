@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { RiLockPasswordLine, RiLockLine, RiEyeLine, RiEyeOffLine, RiLoader4Line } from 'react-icons/ri';
 
@@ -40,7 +40,7 @@ export default function ResetPassword() {
 
     setLoading(true);
     try {
-      const response = await axios.post(`/api/auth/reset-password/${token}`, { password });
+      const response = await api.post(`/auth/reset-password/${token}`, { password });
       toast.success(response.data.message);
       navigate('/login');
     } catch (err) {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { RiShieldKeyholeLine, RiMailLine, RiArrowLeftSLine, RiLoader4Line } from 'react-icons/ri';
 
@@ -20,7 +20,7 @@ export default function ForgotPassword() {
 
     setLoading(true);
     try {
-      const response = await axios.post(`/api/auth/forgot-password`, { email });
+      const response = await api.post(`/auth/forgot-password`, { email });
       toast.success(response.data.message);
       setSubmitted(true);
     } catch (err) {
