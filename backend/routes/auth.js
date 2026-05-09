@@ -46,7 +46,16 @@ router.get('/verify-email/:token', verifyEmail);
 
 router.post(
   '/forgot-password',
-  [body('email').isEmail().withMessage('Please enter a valid email')],
+  [
+    body('email')
+      .isEmail().withMessage('Please enter a valid email.')
+      .custom(value => {
+        if (!value.endsWith('@gmail.com')) {
+          throw new Error('Only @gmail.com addresses are allowed.');
+        }
+        return true;
+      })
+  ],
   forgotPassword
 );
 

@@ -13,6 +13,11 @@ export default function ForgotPassword() {
     e.preventDefault();
     if (!email) return;
 
+    if (!email.toLowerCase().endsWith('@gmail.com')) {
+      toast.error('Only @gmail.com addresses are allowed.');
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await axios.post(`/api/auth/forgot-password`, { email });

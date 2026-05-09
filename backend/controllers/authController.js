@@ -135,8 +135,10 @@ const forgotPassword = async (req, res) => {
   }
 
   try {
+    console.log(`Password reset requested for: ${req.body.email}`);
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
+      console.log('Reset failed: No user found with that email.');
       return res.status(404).json({ message: 'No account found with that email.' });
     }
 
@@ -144,6 +146,7 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
+    console.log('Reset token saved to database.');
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
     const html = `
@@ -161,14 +164,17 @@ const forgotPassword = async (req, res) => {
         html
       });
 
+      console.log('Reset email process completed.');
       res.json({ message: 'Password reset link sent to your email.' });
     } catch (err) {
+      console.error('Reset email sending failed:', err);
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
       await user.save();
       return res.status(500).json({ message: 'Error sending email. Please try again.' });
     }
   } catch (error) {
+    console.error('CRITICAL RESET ERROR:', error);
     res.status(500).json({ message: error.message });
   }
 };
