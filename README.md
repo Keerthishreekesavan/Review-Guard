@@ -1,4 +1,4 @@
-# 🛡️ ReviewGuard - AI-Powered Review Moderation Ecosystem
+# 🛡️ ReviewGuard - AI-Powered Review Moderation Platform
 
 <div align="center">
 
