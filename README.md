@@ -443,29 +443,67 @@ Socket.io Push
 
 ---
 
-# 📁 Project Structure
+# 📁 ReviewGuard Project Structure
 
-```txt
+```
 Review Guard/
 ├── backend/
 │   ├── config/
-│   ├── controllers/
+│   │   └── db.js              # MongoDB Atlas connection
+│   │
+│   ├── controllers/           # Business logic
+│   │   ├── authController.js
+│   │   ├── reviewController.js
+│   │   ├── moderationController.js
+│   │   └── adminController.js
+│   │
 │   ├── middleware/
+│   │   ├── auth.js            # JWT verification
+│   │   ├── roleCheck.js       # Role-based access
+│   │   └── rateLimiter.js     # Rate limiting
+│   │
 │   ├── models/
+│   │   ├── User.js
+│   │   ├── Review.js
+│   │   └── AuditLog.js
+│   │
 │   ├── routes/
+│   │   ├── auth.js
+│   │   ├── reviews.js
+│   │   ├── moderation.js
+│   │   └── admin.js
+│   │
 │   ├── scripts/
+│   │   └── seed.js            # Database seeder
+│   │
 │   ├── utils/
-│   ├── workers/
+│   │   ├── toxicity.js        # Mock AI toxicity detector
+│   │   └── tfidf.js           # TF-IDF duplicate detection
+│   │
+│   ├── .env                   # Environment variables
 │   └── server.js
 │
 └── frontend/
     └── src/
         ├── api/
+        │   └── axios.js
+        │
         ├── components/
+        │   ├── Navbar.jsx
+        │   ├── StatusBadge.jsx
+        │   ├── ProtectedRoute.jsx
+        │   └── LoadingSpinner.jsx
+        │
         ├── context/
-        ├── hooks/
-        ├── pages/
-        └── App.jsx
+        │   └── AuthContext.jsx
+        │
+        └── pages/
+            ├── Login.jsx
+            ├── Register.jsx
+            ├── UserDashboard.jsx
+            ├── ModeratorPanel.jsx
+            ├── Analytics.jsx
+            └── AdminPanel.jsx
 ```
 
 ---
