@@ -86,41 +86,82 @@ Unlike traditional moderation dashboards, ReviewGuard operates as a complete **T
 - Performance leaderboards
 
 ---
+## 🏗️ Full System Architecture
 
-# 🏗️ Full System Architecture
+```mermaid
+flowchart TD
 
-```txt
-                        ┌────────────────────┐
-                        │      React UI      │
-                        │  (Vite + Tailwind) │
-                        └─────────┬──────────┘
-                                  │
-                    REST API + WebSockets
-                                  │
-                        ┌─────────▼──────────┐
-                        │    Express API     │
-                        │   Socket.io Hub    │
-                        └─────────┬──────────┘
-                                  │
-               ┌──────────────────┼──────────────────┐
-               │                  │                  │
-               ▼                  ▼                  ▼
-      ┌──────────────┐   ┌────────────────┐  ┌────────────────┐
-      │ Toxicity AI  │   │ Semantic Scan │  │ Rule-Based AI  │
-      │ (Groq LLM)   │   │ (Embeddings)  │  │ Fallback Shield│
-      └──────────────┘   └────────────────┘  └────────────────┘
-                                  │
-                        ┌─────────▼──────────┐
-                        │     BullMQ Queue   │
-                        │   Redis Workers    │
-                        └─────────┬──────────┘
-                                  │
-                        ┌─────────▼──────────┐
-                        │   MongoDB Atlas    │
-                        └────────────────────┘
+    A[Landing Page]
+
+    A --> B[JWT Authentication Gate]
+
+    B -->|No Token| C[Login]
+    B -->|No Token| D[Sign Up]
+    C --> E[JWT Issued]
+    D --> E
+
+    B -->|Valid Token| F[Role Router]
+    E --> F
+
+    F --> G[User Dashboard]
+    F --> H[Moderator Dashboard]
+    F --> I[Admin Dashboard]
+
+    %% User Features
+    G --> G1[Submit Review]
+    G1 --> G2[Trust Meter]
+    G2 --> G3[Reputation Ladder]
+    G3 --> G4[Review History]
+    G4 --> G5[Soft Delete]
+
+    %% Moderator Features
+    H --> H1[Command Queue]
+    H1 --> H2[Evaluation Studio]
+    H2 --> H3[Evasion Detection]
+    H3 --> H4[Audit Timeline]
+    H4 --> H5[Approve Reject]
+
+    %% Admin Features
+    I --> I1[Live Threat Feed]
+    I1 --> I2[Staff Governance]
+    I2 --> I3[Cascading Delete]
+    I3 --> I4[Global Audit Logs]
+    I4 --> I5[Leaderboard]
+
+    %% API Layer
+    G5 --> J[API Gateway]
+    H5 --> J
+    I5 --> J
+
+    J --> J1[JWT Verify]
+    J --> J2[Rate Limiter]
+    J --> J3[Socket.IO]
+    J --> J4[Express.js]
+
+    %% Core Services
+    J --> K1[Review Service]
+    J --> K2[Moderation Service]
+    J --> K3[User Service]
+    J --> K4[Admin Service]
+
+    %% Queue
+    K1 --> L[BullMQ + Redis Queue]
+    K2 --> L
+
+    %% AI Pipeline
+    L --> M1[Layer 1 - Hugging Face Embeddings]
+    L --> M2[Layer 2 - Groq LLM]
+    L --> M3[Layer 3 - Rule Based Fallback]
+
+    %% Storage
+    M1 --> N1[MongoDB Atlas]
+    M2 --> N2[Redis]
+    M3 --> N3[Vector Store]
+
+    %% Audit Flow
+    K2 -. Audit Logs .-> N1
+    K4 -. Decisions .-> N1
 ```
-
----
 
 # 🚀 Technology Stack
 
