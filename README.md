@@ -251,7 +251,7 @@ Instant Dashboard Update
 
 ---
 
-# 👤 User Role — Content Contributor
+# 👤 User Role - Content Contributor
 
 ## Features
 
