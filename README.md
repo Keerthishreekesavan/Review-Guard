@@ -3,6 +3,8 @@
 A full-stack web application where users submit product reviews that are automatically analyzed for **toxicity** and **duplicate content** using AI, then sent to moderators for final approval. Real-time status updates are delivered via WebSockets.
 
 ---
+## 🌐 Live Demo
+[Click here to try ReviewGuard](https://review-guard-8dcn.onrender.com/)
 
 ## 🚀 Tech Stack
 
